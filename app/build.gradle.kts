@@ -76,4 +76,7 @@ dependencies {
     kapt(libs.com.google.dagger.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.room.room.runtime)
+    annotationProcessor(libs.androidx.room.room.compiler)
+    kapt(libs.androidx.room.room.compiler)
 }
