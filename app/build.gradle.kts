@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
+    alias(libs.plugins.googleDaggerHiltAndroid)
 }
 
 android {
@@ -70,4 +72,6 @@ dependencies {
     implementation(libs.io.coil.kt.compose)
     implementation(libs.com.squareup.retrofit.retrofit)
     implementation(libs.com.squareup.retrofit.converter.gson)
+    implementation(libs.com.google.dagger.hilt.android)
+    kapt(libs.com.google.dagger.hilt.compiler)
 }
