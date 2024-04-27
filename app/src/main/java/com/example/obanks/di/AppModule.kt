@@ -7,7 +7,7 @@ import com.example.obanks.data.datasources.local.OBanksDatabase
 import com.example.obanks.data.datasources.remote.OBanksService
 import com.example.obanks.data.repositories.BanksRepositoryImpl
 import com.example.obanks.domain.repositories.BanksRepository
-import com.example.obanks.domain.use_cases.GetBanksUseCase
+import com.example.obanks.domain.use_cases.FetchBanksUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,7 +57,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesGetBanksUseCase(banksRepository: BanksRepository): GetBanksUseCase =
-        GetBanksUseCase(banksRepository)
+    fun providesGetBanksUseCase(banksRepository: BanksRepository): FetchBanksUseCase =
+        FetchBanksUseCase(banksRepository)
 
 }

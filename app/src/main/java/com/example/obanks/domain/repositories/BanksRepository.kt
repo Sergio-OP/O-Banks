@@ -1,12 +1,12 @@
 package com.example.obanks.domain.repositories
 
 import com.example.obanks.domain.entities.Bank
+import kotlinx.coroutines.flow.Flow
 
 interface BanksRepository {
     suspend fun fetchBanks(): List<Bank>
     suspend fun getBankById(id: Int): Bank
-
     suspend fun insertAll(banks: List<Bank>)
-
-    suspend fun getAll(): List<Bank>
+    fun getAll(): Flow<List<Bank>>
+    suspend fun update(bank: Bank)
 }

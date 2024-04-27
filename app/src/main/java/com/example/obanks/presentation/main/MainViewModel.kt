@@ -1,10 +1,13 @@
 package com.example.obanks.presentation.main
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.obanks.domain.entities.Bank
+import com.example.obanks.domain.use_cases.FetchBanksUseCase
 import com.example.obanks.domain.use_cases.GetBanksUseCase
 import com.example.obanks.domain.use_cases.SaveBanksUseCase
+import com.example.obanks.domain.use_cases.ToggleFavoriteBankUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -15,10 +18,14 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "MainViewModel"
+
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getBanksUseCase: GetBanksUseCase,
+    private val fetchBanksUseCase: FetchBanksUseCase,
     private val saveBanksUseCase: SaveBanksUseCase,
+    private val toggleFavoriteBankUseCase: ToggleFavoriteBankUseCase,
+    private val getBanksUseCase: GetBanksUseCase,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
@@ -31,6 +38,7 @@ class MainViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             fetchBanksData()
+            getBanksData()
         }
     }
 
@@ -40,12 +48,26 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             delay(1000)
             try {
-                val banksData = getBanksUseCase.invoke()
-                if (banksData.isEmpty()) throw Exception("Something went wrong. Please try again later.")
-                _screenState.update {
-                    MainScreenState.Success(data = banksData)
-                }
+                val banksData = fetchBanksUseCase.invoke()
                 saveBanksUseCase.invoke(banksData)
+            } catch (e: Exception) {
+                _screenState.update {
+                    MainScreenState.Error(
+                        e.message ?: "Something went wrong. Please try again later."
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getBanksData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                getBanksUseCase.invoke().collect { banks ->
+                    _screenState.update {
+                        MainScreenState.Success(data = banks)
+                    }
+                }
             } catch (e: Exception) {
                 _screenState.update {
                     MainScreenState.Error(
@@ -70,7 +92,13 @@ class MainViewModel @Inject constructor(
     }
 
     fun toggleFavoriteBank(bank: Bank) {
-        // TODO
+        val bankUpdated = bank.copy(
+            isFavorite = !bank.isFavorite
+        )
+        Log.i(TAG, "Bank Id: ${bankUpdated.id} is Favorite ${bankUpdated.isFavorite}")
+        viewModelScope.launch(Dispatchers.IO) {
+            toggleFavoriteBankUseCase.invoke(bankUpdated)
+        }
     }
 
 

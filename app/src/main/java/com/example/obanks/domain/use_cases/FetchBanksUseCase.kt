@@ -2,20 +2,18 @@ package com.example.obanks.domain.use_cases
 
 import com.example.obanks.domain.entities.Bank
 import com.example.obanks.domain.repositories.BanksRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
-class GetBanksUseCase @Inject constructor(
+class FetchBanksUseCase @Inject constructor(
     private val banksRepository: BanksRepository
 ) {
 
-    suspend operator fun invoke(): Flow<List<Bank>> {
+    suspend operator fun invoke(): List<Bank> {
         return try {
-            banksRepository.getAll()
+            banksRepository.fetchBanks()
         } catch (e: Exception) {
             e.printStackTrace()
-            emptyFlow()
+            emptyList()
         }
     }
 

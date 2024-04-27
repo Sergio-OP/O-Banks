@@ -5,6 +5,8 @@ import com.example.obanks.data.datasources.remote.OBanksService
 import com.example.obanks.domain.entities.Bank
 import com.example.obanks.domain.repositories.BanksRepository
 import com.example.obanks.domain.utils.BankMapper
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class BanksRepositoryImpl @Inject constructor(
@@ -29,10 +31,18 @@ class BanksRepositoryImpl @Inject constructor(
         bankEntityDao.insertAll(bankEntities)
     }
 
-    override suspend fun getAll(): List<Bank> {
-        val bankEntities = bankEntityDao.getAll()
-        return bankEntities.map { BankMapper().castFromBankEntityToEntity(it) }
+    override fun getAll(): Flow<List<Bank>> {
+        return bankEntityDao.getAll().map {
+            it.map { bankEntity ->
+                BankMapper().castFromBankEntityToEntity(bankEntity)
+            }
+        }
     }
+
+
+    override suspend fun update(bank: Bank) =
+        bankEntityDao.updateBank(BankMapper().castFromEntityToBankEntity(bank))
+
 
 
 }

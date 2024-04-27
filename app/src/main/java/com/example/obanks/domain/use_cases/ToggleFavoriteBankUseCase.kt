@@ -2,20 +2,17 @@ package com.example.obanks.domain.use_cases
 
 import com.example.obanks.domain.entities.Bank
 import com.example.obanks.domain.repositories.BanksRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
 
-class GetBanksUseCase @Inject constructor(
+class ToggleFavoriteBankUseCase @Inject constructor(
     private val banksRepository: BanksRepository
 ) {
 
-    suspend operator fun invoke(): Flow<List<Bank>> {
-        return try {
-            banksRepository.getAll()
+    suspend operator fun invoke(bank: Bank) {
+        try {
+            banksRepository.update(bank)
         } catch (e: Exception) {
             e.printStackTrace()
-            emptyFlow()
         }
     }
 
