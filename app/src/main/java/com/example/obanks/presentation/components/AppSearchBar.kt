@@ -12,6 +12,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,21 +25,20 @@ import com.example.obanks.ui.theme.OBanksTheme
 
 @Composable
 fun AppSearchBar(
-    query: String,
-    onQueryChange: (String) -> Unit,
     banksFound: List<Bank>,
     onSearch: (String) -> Unit,
-    onActiveChange: (Boolean) -> Unit,
-    onClear: () -> Unit,
     modifier: Modifier = Modifier,
-    isActive: Boolean = true,
 ) {
+
+    var query by rememberSaveable { mutableStateOf("") }
+    var isActive by rememberSaveable { mutableStateOf(false) }
+
     SearchBar(
         query = query,
-        onQueryChange = { onQueryChange(it) },
+        onQueryChange = { query = it },
         onSearch = { onSearch(it) },
         active = isActive,
-        onActiveChange = { onActiveChange(it) },
+        onActiveChange = { isActive = it },
         shape = RoundedCornerShape(50),
         leadingIcon = {
             IconButton(onClick = { onSearch(query) }) {
@@ -46,7 +49,7 @@ fun AppSearchBar(
             }
         },
         trailingIcon = {
-            IconButton(onClick = { onClear() }) {
+            IconButton(onClick = { query = "" }) {
                 Icon(
                     imageVector = Icons.Default.Clear,
                     contentDescription = stringResource(R.string.clear)
@@ -66,12 +69,8 @@ fun AppSearchBar(
 fun AppSearchBarPreview() {
     OBanksTheme {
         AppSearchBar(
-            query = "",
-            onQueryChange = {},
             onSearch = {},
-            onActiveChange = {},
             banksFound = emptyList(),
-            onClear = {}
         )
     }
 }

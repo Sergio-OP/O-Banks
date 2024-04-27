@@ -31,9 +31,6 @@ class MainViewModel @Inject constructor(
     private val _screenState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
     val screenState: StateFlow<MainScreenState> = _screenState.asStateFlow()
 
-    private val _screenUiState = MutableStateFlow(MainScreenUiState())
-    val screenUiState: StateFlow<MainScreenUiState> = _screenUiState.asStateFlow()
-
 
     init {
         viewModelScope.launch {
@@ -78,18 +75,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun updateQuery(input: String) {
-        if (_screenState.value is MainScreenState.Success) {
-            _screenUiState.update { it.copy(query = input) }
-        }
+
+    fun onSearch(query: String) {/*TODO*/
     }
 
-    fun onSearch() {/*TODO*/
-    }
-
-    fun onActiveChange() {
-        //TODO("Not yet implemented")
-    }
 
     fun toggleFavoriteBank(bank: Bank) {
         val bankUpdated = bank.copy(

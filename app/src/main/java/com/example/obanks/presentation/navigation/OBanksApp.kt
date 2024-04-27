@@ -40,7 +40,7 @@ fun OBanksApp(
         NavHost(
             navController = navController,
             startDestination = Screens.MAIN.name,
-            modifier = Modifier.padding(paddingValues)
+            modifier = Modifier.padding(paddingValues).fillMaxSize(),
         ) {
             composable(route = Screens.MAIN.name) {
                 MainScreen(
