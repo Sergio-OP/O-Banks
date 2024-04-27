@@ -5,14 +5,13 @@ import com.example.obanks.domain.repositories.BanksRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import javax.inject.Inject
-
-class GetBanksUseCase @Inject constructor(
+class GetBanksByNameUseCase @Inject constructor(
     private val banksRepository: BanksRepository
 ) {
 
-    operator fun invoke(): Flow<List<Bank>> {
+    operator fun invoke(name: String): Flow<List<Bank>> {
         return try {
-            banksRepository.getAll()
+            banksRepository.getBanksByName(name)
         } catch (e: Exception) {
             e.printStackTrace()
             emptyFlow()

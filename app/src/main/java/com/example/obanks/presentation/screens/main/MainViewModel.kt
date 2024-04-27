@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.obanks.domain.entities.Bank
 import com.example.obanks.domain.use_cases.FetchBanksUseCase
+import com.example.obanks.domain.use_cases.GetBanksByNameUseCase
 import com.example.obanks.domain.use_cases.GetBanksUseCase
 import com.example.obanks.domain.use_cases.SaveBanksUseCase
 import com.example.obanks.domain.use_cases.ToggleFavoriteBankUseCase
@@ -26,10 +27,14 @@ class MainViewModel @Inject constructor(
     private val saveBanksUseCase: SaveBanksUseCase,
     private val toggleFavoriteBankUseCase: ToggleFavoriteBankUseCase,
     private val getBanksUseCase: GetBanksUseCase,
+    private val getBanksByNameUseCase: GetBanksByNameUseCase,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
     val screenState: StateFlow<MainScreenState> = _screenState.asStateFlow()
+
+    private val _appSearchBarUiState = MutableStateFlow(AppSearchBarUiState())
+    val appSearchBarUiState: StateFlow<AppSearchBarUiState> = _appSearchBarUiState.asStateFlow()
 
 
     init {
@@ -76,7 +81,18 @@ class MainViewModel @Inject constructor(
     }
 
 
-    fun onSearch(query: String) {/*TODO*/
+    fun getBanksByName(name: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            Log.i(TAG, "Searching Banks with $name")
+            try {
+                getBanksByNameUseCase.invoke(name).collect { banks ->
+                    _appSearchBarUiState.update { it.copy(banks = banks) }
+                    Log.i(TAG, "Banks Found:  ${banks.size}")
+                }
+            } catch (e: Exception) {
+                _appSearchBarUiState.update { it.copy(banks = emptyList()) }
+            }
+        }
     }
 
 

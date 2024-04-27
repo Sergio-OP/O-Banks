@@ -45,6 +45,13 @@ class BanksRepositoryImpl @Inject constructor(
     override suspend fun update(bank: Bank) =
         bankEntityDao.updateBank(BankMapper().castFromEntityToBankEntity(bank))
 
+    override fun getBanksByName(name: String): Flow<List<Bank>> {
+        return bankEntityDao.getBanksByName(name).map {
+            it.map { bankEntity ->
+                BankMapper().castFromBankEntityToEntity(bankEntity)
+            }
+        }
+    }
 
 
 }

@@ -27,6 +27,7 @@ fun MainScreen(
 
     val viewModel: MainViewModel = hiltViewModel()
     val screenState = viewModel.screenState.collectAsState()
+    val appSearchBarUiState = viewModel.appSearchBarUiState.collectAsState()
 
     when (screenState.value) {
         is MainScreenState.Error -> {
@@ -48,8 +49,9 @@ fun MainScreen(
             ) {
 
                 AppSearchBar(
-                    onSearch = { viewModel.onSearch(it) },
-                    banksFound = emptyList(),
+                    onSearch = { viewModel.getBanksByName(it) },
+                    banksFound = appSearchBarUiState.value.banks,
+                    onBankClicked = { onMoreInfoClicked(it) },
                     modifier = Modifier
                         .padding(horizontal = dimensionResource(R.dimen.card_info_content_padding))
                         .fillMaxWidth()

@@ -18,6 +18,12 @@ interface BankEntityDao {
     @Update
     suspend fun updateBank(bank: BankEntity)
 
-    @Query("SELECT * from banks WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM banks WHERE id = :id LIMIT 1")
     fun getBankById(id: Int): Flow<BankEntity>
+
+    /* @Query("SELECT * FROM banks WHERE name LIKE :query")
+    fun getBanksByName(query: String): Flow<List<BankEntity>> */
+
+    @Query("SELECT * FROM banks WHERE name LIKE '%' || :query || '%'")
+    fun getBanksByName(query: String): Flow<List<BankEntity>>
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.obanks.domain.entities.Bank
 import com.example.obanks.domain.repositories.BanksRepository
 import com.example.obanks.domain.use_cases.GetBankByIdUseCase
+import com.example.obanks.domain.use_cases.GetBanksByNameUseCase
 import com.example.obanks.domain.use_cases.GetBanksUseCase
 import com.example.obanks.domain.use_cases.ToggleFavoriteBankUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     private val getBankByIdUseCase: GetBankByIdUseCase,
-    private val toggleFavoriteBankUseCase: ToggleFavoriteBankUseCase
+    private val toggleFavoriteBankUseCase: ToggleFavoriteBankUseCase,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow<DetailsUiState>(DetailsUiState.Loading)
@@ -50,5 +51,6 @@ class DetailsViewModel @Inject constructor(
             toggleFavoriteBankUseCase.invoke(bankUpdated)
         }
     }
+
 
 }

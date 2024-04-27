@@ -9,4 +9,6 @@ interface BanksRepository {
     suspend fun insertAll(banks: List<Bank>)
     fun getAll(): Flow<List<Bank>>
     suspend fun update(bank: Bank)
+
+    fun getBanksByName(name: String): Flow<List<Bank>>
 }
