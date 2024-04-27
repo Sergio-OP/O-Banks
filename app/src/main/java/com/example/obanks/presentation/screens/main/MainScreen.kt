@@ -1,4 +1,4 @@
-package com.example.obanks.presentation.main
+package com.example.obanks.presentation.screens.main
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

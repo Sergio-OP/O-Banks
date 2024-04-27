@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface BanksRepository {
     suspend fun fetchBanks(): List<Bank>
-    suspend fun getBankById(id: Int): Bank
+    fun getBankById(id: Int): Flow<Bank>
     suspend fun insertAll(banks: List<Bank>)
     fun getAll(): Flow<List<Bank>>
     suspend fun update(bank: Bank)

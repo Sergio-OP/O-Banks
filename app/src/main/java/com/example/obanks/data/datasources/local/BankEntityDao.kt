@@ -19,5 +19,5 @@ interface BankEntityDao {
     suspend fun updateBank(bank: BankEntity)
 
     @Query("SELECT * from banks WHERE id = :id LIMIT 1")
-    fun getBankById(id: Int): BankEntity
+    fun getBankById(id: Int): Flow<BankEntity>
 }

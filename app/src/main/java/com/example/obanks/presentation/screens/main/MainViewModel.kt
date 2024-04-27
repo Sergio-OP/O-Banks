@@ -1,4 +1,4 @@
-package com.example.obanks.presentation.main
+package com.example.obanks.presentation.screens.main
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

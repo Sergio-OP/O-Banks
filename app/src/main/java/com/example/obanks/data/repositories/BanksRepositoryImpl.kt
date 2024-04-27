@@ -23,8 +23,10 @@ class BanksRepositoryImpl @Inject constructor(
         return response
     }
 
-    override suspend fun getBankById(id: Int): Bank =
-        BankMapper().castFromBankEntityToEntity(bankEntityDao.getBankById(id))
+    override fun getBankById(id: Int): Flow<Bank> {
+        return bankEntityDao.getBankById(id).map { BankMapper().castFromBankEntityToEntity(it) }
+    }
+
 
     override suspend fun insertAll(banks: List<Bank>) {
         val bankEntities = banks.map { BankMapper().castFromEntityToBankEntity(it) }

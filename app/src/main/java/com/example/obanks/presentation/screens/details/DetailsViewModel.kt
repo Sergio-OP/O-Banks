@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,10 +28,13 @@ class DetailsViewModel @Inject constructor(
 
     fun getBankById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _screenState.update { DetailsUiState.Loading }
             try {
-                val bank = getBankByIdUseCase.invoke(id) ?: throw Exception("Error Unknown")
-                _screenState.update { DetailsUiState.Success(bank) }
+                getBankByIdUseCase.invoke(id).collect { bank ->
+                    _screenState.update {
+                        DetailsUiState.Success(bank)
+                    }
+                }
+
             } catch (e: Exception) {
                 _screenState.update { DetailsUiState.Error(e.message ?: "Error Unknown") }
             }

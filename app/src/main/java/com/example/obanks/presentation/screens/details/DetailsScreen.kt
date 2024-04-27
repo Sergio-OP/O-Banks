@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -68,6 +69,7 @@ fun DetailsScreen(
                         model = bank.photoUrl,
                         contentDescription = null,
                         placeholder = painterResource(R.drawable.ic_bank),
+                        contentScale = ContentScale.FillWidth,
                         modifier = Modifier
                             .height(240.dp)
                             .clip(RoundedCornerShape(20))
@@ -90,8 +92,8 @@ fun DetailsScreen(
                     value = bank.description,
                 )
                 InfoField(
-                    label = "Age",
-                    value = bank.age.toString(),
+                    label = stringResource(R.string.age),
+                    value = stringResource(R.string.years, bank.age),
                 )
 
             }
