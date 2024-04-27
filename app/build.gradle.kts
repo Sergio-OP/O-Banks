@@ -74,4 +74,5 @@ dependencies {
     implementation(libs.com.squareup.retrofit.converter.gson)
     implementation(libs.com.google.dagger.hilt.android)
     kapt(libs.com.google.dagger.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 }
