@@ -76,26 +76,15 @@ fun InfoCard(
 
             Spacer(Modifier.weight(2F))
 
-            IconToggleButton(
-                checked = bank.isFavorite,
-                onCheckedChange = { onFavoriteToggle(it) }
-            ) {
-                if (bank.isFavorite) {
-                    Icon(
-                        imageVector = Icons.Default.Favorite,
-                        contentDescription = stringResource(R.string.remove_from_favorites)
-                    )
-                } else {
-                    Icon(
-                        imageVector = Icons.Default.FavoriteBorder,
-                        contentDescription = stringResource(R.string.add_to_favorites)
-                    )
-                }
-            }
+            FavoriteIconButton(
+                bank = bank,
+                onFavoriteToggle = onFavoriteToggle
+            )
 
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
