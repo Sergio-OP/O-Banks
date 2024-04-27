@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.obanks.domain.entities.Bank
 import com.example.obanks.domain.use_cases.GetBanksUseCase
+import com.example.obanks.domain.use_cases.SaveBanksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getBanksUseCase: GetBanksUseCase,
+    private val saveBanksUseCase: SaveBanksUseCase,
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow<MainScreenState>(MainScreenState.Loading)
@@ -34,7 +37,7 @@ class MainViewModel @Inject constructor(
     fun fetchBanksData() {
         if (_screenState.value is MainScreenState.Success) return
         _screenState.value = MainScreenState.Loading
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             delay(1000)
             try {
                 val banksData = getBanksUseCase.invoke()
@@ -42,6 +45,7 @@ class MainViewModel @Inject constructor(
                 _screenState.update {
                     MainScreenState.Success(data = banksData)
                 }
+                saveBanksUseCase.invoke(banksData)
             } catch (e: Exception) {
                 _screenState.update {
                     MainScreenState.Error(
