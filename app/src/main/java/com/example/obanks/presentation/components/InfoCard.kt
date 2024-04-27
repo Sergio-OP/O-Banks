@@ -34,7 +34,7 @@ import com.example.obanks.ui.theme.OBanksTheme
 fun InfoCard(
     bank: Bank,
     onMoreInfoClicked: () -> Unit,
-    onFavoriteToggle: (Boolean) -> Unit,
+    onFavoriteToggle: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(

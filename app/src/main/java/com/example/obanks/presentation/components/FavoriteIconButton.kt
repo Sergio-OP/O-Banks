@@ -14,12 +14,12 @@ import com.example.obanks.domain.entities.Bank
 @Composable
 fun FavoriteIconButton(
     bank: Bank,
-    onFavoriteToggle: (Boolean) -> Unit,
+    onFavoriteToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     IconToggleButton(
         checked = bank.isFavorite,
-        onCheckedChange = { onFavoriteToggle(it) },
+        onCheckedChange = { onFavoriteToggle() },
         modifier = modifier
     ) {
         if (bank.isFavorite) {

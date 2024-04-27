@@ -17,7 +17,7 @@ import com.example.obanks.presentation.screens.LoadingScreen
 
 @Composable
 fun MainScreen(
-    onMoreInfoClicked: () -> Unit,
+    onMoreInfoClicked: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -49,7 +49,7 @@ fun MainScreen(
                     items(items = (screenState.value as MainScreenState.Success).data) { bank ->
                         InfoCard(
                             bank = bank,
-                            onMoreInfoClicked = { onMoreInfoClicked() },
+                            onMoreInfoClicked = { onMoreInfoClicked(bank.id) },
                             onFavoriteToggle = { viewModel.toggleFavoriteBank(bank) },
                             modifier = Modifier.padding(top = dimensionResource(R.dimen.card_info_content_padding))
                         )
