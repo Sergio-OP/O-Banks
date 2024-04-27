@@ -68,4 +68,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.io.coil.kt.compose)
+    implementation(libs.com.squareup.retrofit.retrofit)
+    implementation(libs.com.squareup.retrofit.converter.gson)
 }
