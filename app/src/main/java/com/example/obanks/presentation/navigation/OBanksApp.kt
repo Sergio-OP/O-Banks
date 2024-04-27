@@ -19,6 +19,7 @@ fun OBanksApp(
         modifier = modifier
     ) { paddingValues ->
         MainScreen(
+            onMoreInfoClicked = {/* TODO */ },
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
