@@ -23,7 +23,7 @@ O+ Banks is an Android application that allows users to explore banks, mark favo
 
 ## App Preview
 
-![App Preview](/raw/o_banks_internet (online-video-cutter.com).gif)
+![App Preview](/raw/app_previw.gif)
 
 ## Getting Started
 
